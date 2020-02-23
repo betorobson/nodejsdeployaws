@@ -1,0 +1,60 @@
+version: "3"
+
+services:
+  app:
+    labels:
+      # - "traefik.backend=app"
+      - "traefik.port=3000"
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.frontend.rule=Host:nodejsdeploy.betorobson"
+      # - "traefik.frontend.rule=Host:nodejsdeploy.betorobson"
+      # - "traefik.docker.network=web"
+      - "traefik.port=80"
+    build: .
+    ports:
+      - "3000:3000"
+    # networks:
+    #   - internal
+    #   - web
+    command: yarn start
+
+  reverse-proxy:
+    image: traefik:latest
+    # command: --api --docker.exposedbydefault=false
+    # command: --api --api.insecure=true --docker.exposedbydefault=false --providers.docker
+
+    # command: --api.insecure=true --providers.docker
+
+    command:
+     - --api.insecure=true
+     - --providers.docker
+
+    # command:
+    #   - --api
+    #   - --api.insecure=true
+    #   - --docker
+    #   # - --docker.swarmmode
+    #   - --docker.watch
+    #   # - --entrypoints=Name:http Address::80 Redirect.EntryPoint:https
+    #   # - --entrypoints=Name:https Address::443 TLS
+    #   # - --defaultentrypoints=http,https
+    #   # - --acme
+    #   # - --acme.email=jakub.hajek@cometari.com
+    #   # - --acme.storage=/certificates/acme.json
+    #   # - --acme.entryPoint=https
+    #   # - --acme.httpChallenge.entryPoint=http
+    #   # - --acme.onhostrule=true
+    #   # - --acme.acmelogging=true
+    #   # - --logLevel=INFO
+    #   # - --accessLog
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # whoami:
+  #   image: containous/whoami
+  #   labels:
+  #     - "traefik.http.routers.whoami.rule=Host(`nodejsdeploy.betorobson`)"
