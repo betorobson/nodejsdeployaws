@@ -1,60 +1,44 @@
 version: "3"
 
 services:
-  app:
-    labels:
-      # - "traefik.backend=app"
-      - "traefik.port=3000"
-      - "traefik.enable=true"
-      - "traefik.docker.network=proxy"
-      - "traefik.frontend.rule=Host:nodejsdeploy.betorobson"
-      # - "traefik.frontend.rule=Host:nodejsdeploy.betorobson"
-      # - "traefik.docker.network=web"
-      - "traefik.port=80"
-    build: .
-    ports:
-      - "3000:3000"
-    # networks:
-    #   - internal
-    #   - web
-    command: yarn start
-
   reverse-proxy:
-    image: traefik:latest
-    # command: --api --docker.exposedbydefault=false
-    # command: --api --api.insecure=true --docker.exposedbydefault=false --providers.docker
-
-    # command: --api.insecure=true --providers.docker
-
+    # The official v2 Traefik docker image
+    image: traefik:v2.1
+    # Enables the web UI and tells Traefik to listen to docker
     command:
      - --api.insecure=true
      - --providers.docker
-
-    # command:
-    #   - --api
-    #   - --api.insecure=true
-    #   - --docker
-    #   # - --docker.swarmmode
-    #   - --docker.watch
-    #   # - --entrypoints=Name:http Address::80 Redirect.EntryPoint:https
-    #   # - --entrypoints=Name:https Address::443 TLS
-    #   # - --defaultentrypoints=http,https
-    #   # - --acme
-    #   # - --acme.email=jakub.hajek@cometari.com
-    #   # - --acme.storage=/certificates/acme.json
-    #   # - --acme.entryPoint=https
-    #   # - --acme.httpChallenge.entryPoint=http
-    #   # - --acme.onhostrule=true
-    #   # - --acme.acmelogging=true
-    #   # - --logLevel=INFO
-    #   # - --accessLog
+     - --providers.docker.exposedbydefault=false
+     - --entrypoints.web.address=:80
+     - --entrypoints.whoami.address=:3002
     ports:
+      # The HTTP port
       - "80:80"
+      - "3002:3002"
+      # The Web UI (enabled by --api.insecure=true)
       - "8080:8080"
     volumes:
+      # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
 
-  # whoami:
-  #   image: containous/whoami
-  #   labels:
-  #     - "traefik.http.routers.whoami.rule=Host(`nodejsdeploy.betorobson`)"
+  app:
+    build: .
+    # ports:
+    #   - "3000:3000"
+    labels:
+      - traefik.http.routers.app.rule=Host(`nodejsdeploy.betorobson`)
+      - traefik.enable=true
+      - traefik.http.routers.app.entrypoints=web
+
+    command: yarn start
+
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: containous/whoami
+    # ports:
+    #   # The HTTP port
+    #   - "3001:80"
+    labels:
+      - traefik.http.routers.whoami.rule=Host(`vaiplaneta.localhost`)
+      - traefik.enable=true
+      - traefik.http.routers.whoami.entrypoints=whoami
