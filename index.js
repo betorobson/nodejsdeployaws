@@ -2,8 +2,8 @@ const express = require('express');
 
 const app = express();
 
-app.get('/', (req, res) => res.json({
-	message: 'hellow world 4'
+app.get('/app1', (req, res) => res.json({
+	message: 'app1'
 }));
 
 app.listen(3000);
