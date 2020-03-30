@@ -1,8 +1,8 @@
-version: "3"
+# networks:
+#   isolation-network:
+#     driver: bridge
 
-networks:
-  isolation-network:
-    driver: bridge
+version: "3"
 
 services:
   reverse-proxy:
@@ -22,6 +22,8 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    # networks:
+    #   - isolation-network
 
   app1:
     build: .
@@ -32,6 +34,9 @@ services:
       - traefik.http.routers.app1.rule=Host(`localhost`) && PathPrefix(`/app1`)
       - traefik.enable=true
       - traefik.http.routers.app1.entrypoints=web
+      # - traefik.docker.network=isolation-network
+    # networks:
+    #   - isolation-network
 
     command: yarn run start1
 
@@ -52,8 +57,8 @@ services:
     # ports:
     #   # The HTTP port
     #   - "3001:80"
-    # labels:
+    labels:
       # - traefik.http.routers.whoami.rule=Host(`localhost`) && Path(`/whoami`)
       # - traefik.http.routers.whoami.rule=Host(`vaiplaneta.localhost`) || Host(`18.214.25.242`)
       # - traefik.enable=true
-      # - traefik.http.routers.whoami.entrypoints=web
+      - traefik.http.routers.whoami.entrypoints=web
