@@ -1,5 +1,9 @@
 version: "3"
 
+networks:
+  isolation-network:
+    driver: bridge
+
 services:
   reverse-proxy:
     # The official v2 Traefik docker image
@@ -48,8 +52,8 @@ services:
     # ports:
     #   # The HTTP port
     #   - "3001:80"
-    labels:
-      - traefik.http.routers.whoami.rule=Host(`localhost`) && Path(`/whoami`)
+    # labels:
+      # - traefik.http.routers.whoami.rule=Host(`localhost`) && Path(`/whoami`)
       # - traefik.http.routers.whoami.rule=Host(`vaiplaneta.localhost`) || Host(`18.214.25.242`)
-      - traefik.enable=true
-      - traefik.http.routers.whoami.entrypoints=web
+      # - traefik.enable=true
+      # - traefik.http.routers.whoami.entrypoints=web
