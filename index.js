@@ -27,7 +27,7 @@ app.get(
   (req, res) => {
 
     axios.request({
-      url : 'http://whoami/whoami',
+      url : 'http://whoami/',
       method: 'GET'
     }).then(response =>
 
@@ -41,6 +41,33 @@ app.get(
 
       res.json({
         message: 'app1-whoami',
+        error: error
+      });
+
+    });
+
+  }
+);
+
+app.get(
+  '/app1-get-app3',
+  (req, res) => {
+
+    axios.request({
+      url : 'http://app3:3000/app3',
+      method: 'GET'
+    }).then(response =>
+
+      res.json({
+        message: 'app3',
+        data: response.data
+      })
+
+    )
+    .catch(error => {
+
+      res.json({
+        message: 'app3',
         error: error
       });
 
