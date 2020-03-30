@@ -3,9 +3,24 @@ const axios = require('axios');
 
 const app = express();
 
-app.get('/app1', (req, res) => res.json({
-	message: 'app1'
-}));
+app.get(
+  '/app1',
+  (req, res) => {
+
+    try {
+      if(req.query.name){
+        req.query.name();
+      }
+    } catch(err){
+      console.log(err);
+      process.exit(1);
+    }
+
+    return res.json({
+      message: 'app1'
+    });
+  }
+);
 
 app.get(
   '/app1-whoami',
@@ -37,3 +52,7 @@ app.get(
 // whoami
 
 app.listen(3000);
+
+process.on('exit', (code) => {
+  console.log('Process exit event with code: ', code);
+});

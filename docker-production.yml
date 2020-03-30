@@ -22,6 +22,7 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: on-failure
     # networks:
     #   - isolation-network
 
@@ -39,6 +40,7 @@ services:
     #   - isolation-network
 
     command: yarn run start1
+    restart: on-failure
 
   app2:
     build: .
@@ -50,6 +52,7 @@ services:
       - traefik.http.routers.app2.entrypoints=web
 
     command: yarn run start2
+    restart: on-failure
 
   whoami:
     # A container that exposes an API to show its IP address
@@ -62,3 +65,4 @@ services:
       # - traefik.http.routers.whoami.rule=Host(`vaiplaneta.localhost`) || Host(`18.214.25.242`)
       # - traefik.enable=true
       - traefik.http.routers.whoami.entrypoints=web
+    restart: on-failure
