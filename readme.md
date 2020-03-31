@@ -7,5 +7,4 @@ node app 3 through app1: http://localhost/app1-get-app3 -> docker.services.app3:
 node app whoami through app1 : http://localhost/app1-whoami -> docker.services.whoami: route /whoami
 ```
 
-This service communication is only possible because Traefik creates an Docker network between then
-automatically by its own.
+This service communication is only possible because Traefik automatically creates an Docker network between then.
