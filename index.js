@@ -17,7 +17,7 @@ app.get(
     }
 
     return res.json({
-      message: 'app1'
+      message: 'app1:v4'
     });
   }
 );

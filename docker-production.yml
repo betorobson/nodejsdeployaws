@@ -27,6 +27,7 @@ services:
     #   - isolation-network
 
   app1:
+    image: app1:v4
     build: .
     # ports:
     #   - "3000:3000"
@@ -43,6 +44,7 @@ services:
     restart: on-failure
 
   app2:
+    image: app2:v1
     build: .
     # ports:
     #   - "3000:3000"
@@ -55,6 +57,7 @@ services:
     restart: on-failure
 
   app3:
+    image: app3:v1
     build: .
     # ports:
     #   - "3000:3000"
