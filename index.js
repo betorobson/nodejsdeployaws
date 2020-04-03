@@ -1,10 +1,11 @@
 const express = require('express');
 const axios = require('axios');
-
+const { resJSONBody } = require('./middlewares/res-jsonbody');
 const app = express();
 
 app.get(
   '/app1',
+  resJSONBody,
   (req, res) => {
 
     try {
@@ -16,9 +17,14 @@ app.get(
       process.exit(1);
     }
 
-    return res.json({
-      message: 'app1:v4'
-    });
+    return res.json(
+      Object.assign(
+        res.resJSONBody || {},
+        {
+        message: 'app1:v4'
+        }
+      )
+    );
   }
 );
 
