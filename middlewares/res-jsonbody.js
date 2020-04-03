@@ -1,11 +1,11 @@
 exports.resJSONBody = (req, res, next) => {
 
-  res.resJSONBody = res.resJSONBody || {};
+  res.jsonBody = res.jsonBody || {};
 
   Object.assign(
-    res.resJSONBody,
+    res.jsonBody,
     {
-      msg: 'yes it works v2'
+      msg: 'yes it works v3'
     }
   );
 
