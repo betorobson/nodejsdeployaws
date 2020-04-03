@@ -5,7 +5,7 @@ exports.resJSONBody = (req, res, next) => {
   Object.assign(
     res.resJSONBody,
     {
-      msg: 'yes it works'
+      msg: 'yes it works v2'
     }
   );
 
