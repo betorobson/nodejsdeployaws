@@ -13,5 +13,29 @@
         "origin": "AUTHORED",
         "exported": true
     },
+    "betorobson.middlewares/wrapper-async-middleware-exceptions@0.0.2": {
+        "files": [
+            {
+                "relativePath": "middlewares/wrapper-async-middleware-exceptions.js",
+                "test": false,
+                "name": "wrapper-async-middleware-exceptions.js"
+            }
+        ],
+        "mainFile": "middlewares/wrapper-async-middleware-exceptions.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
+    "betorobson.middlewares/wrapper-middleware-exceptions@0.0.1": {
+        "files": [
+            {
+                "relativePath": "middlewares/wrapper-middleware-exceptions.js",
+                "test": false,
+                "name": "wrapper-middleware-exceptions.js"
+            }
+        ],
+        "mainFile": "middlewares/wrapper-middleware-exceptions.js",
+        "origin": "AUTHORED",
+        "exported": true
+    },
     "version": "14.7.6"
 }
