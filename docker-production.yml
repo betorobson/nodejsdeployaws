@@ -27,20 +27,11 @@ services:
     #   - isolation-network
 
   app1:
-    image: app1:v4
-    build: .
-    # ports:
-    #   - "3000:3000"
+    image: app1:v5
     labels:
-      # - traefik.http.routers.app1.rule=Host(`nodejsdeploy.betorobson`) || Host(`18.214.25.242`)
       - traefik.http.routers.app1.rule=Host(`localhost`) && PathPrefix(`/app1`)
       - traefik.enable=true
       - traefik.http.routers.app1.entrypoints=web
-      # - traefik.docker.network=isolation-network
-    # networks:
-    #   - isolation-network
-
-    command: yarn run start1
     restart: on-failure
 
   app2:
