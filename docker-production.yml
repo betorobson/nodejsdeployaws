@@ -27,7 +27,7 @@ services:
     #   - isolation-network
 
   app1:
-    image: app1:v5
+    image: app1:v6
     labels:
       - traefik.http.routers.app1.rule=Host(`localhost`) && PathPrefix(`/app1`)
       - traefik.enable=true
