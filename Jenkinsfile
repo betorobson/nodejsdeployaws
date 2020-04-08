@@ -1,10 +1,3 @@
-environment {
-  registry = "betorobson/nodejsapp1"
-  registryCredential = 'dockerhub'
-}
-
-docker.withRegistry( '', docker-hub-credentials ) {
-
 pipeline {
   environment {
     registry = "betorobson/nodejsapp1"
