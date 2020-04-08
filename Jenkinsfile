@@ -1,6 +1,5 @@
-pipeline {
+node {
   def app
-  agent { dockerfile true }
   stages {
     stage('Test') {
       steps {
