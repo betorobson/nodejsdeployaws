@@ -1,11 +1,19 @@
 pipeline {
+
+  environment {
+    registry = "betorobson/nodejsapp1"
+    registryCredential = 'dockerhub'
+  }
+
   agent { dockerfile true }
+
   stages {
-    stage('Test') {
+    stage('Publish Image') {
       steps {
-        sh 'node --version '
+        script {
+          docker.build registry + ":$BUILD_NUMBER"
+        }
       }
     }
-
   }
 }
