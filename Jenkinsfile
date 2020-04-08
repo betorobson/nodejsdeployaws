@@ -1,30 +1,13 @@
 pipeline {
-  environment {
-    registry = "betorobson/nodejsapp1"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
+  agent {
+    agent { dockerfile true }
   }
-  agent any
-  tools {nodejs "node" }
   stages {
-    stage('Cloning Git') {
-      checkout scm
-    }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
-        }
+    stage('Build') {
+      steps {
+        sh 'node --version'
       }
     }
-    stage('Deploy Image') {
-      steps{
-         script {
-            docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("${env.BUILD_NUMBER}")
-          }
-        }
-      }
-    }
+
   }
 }
