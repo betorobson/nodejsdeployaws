@@ -1,17 +1,9 @@
 node {
-  def app
-  stages {
-    stage('Clone repository') {
-        checkout scm
+    checkout scm
+
+    def customImage = docker.build("my-image:${env.BUILD_ID}")
+
+    customImage.inside {
+        sh 'make test'
     }
-    stage('Build image') {
-        app = docker.build("betorobson/nodejsapp1")
-    }
-    stage('Push image') {
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }
-  }
 }
