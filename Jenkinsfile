@@ -1,31 +1,36 @@
 pipeline {
-  environment {
-    registry = "betorobson/nodejsapp1"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
   agent any
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://bitbucket.org/betorobson/nodejsdeployaws'
+        git(url: 'https://bitbucket.org/betorobson/nodejsdeployaws', credentialsId: 'bitbucket')
       }
     }
+
     stage('Building image') {
-      steps{
+      steps {
         script {
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+
       }
     }
+
     stage('Deploy Image') {
-      steps{
-         script {
-            docker.withRegistry( '', registryCredential ) {
+      steps {
+        script {
+          docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
           }
         }
+
       }
     }
+
+  }
+  environment {
+    registry = 'betorobson/nodejsapp1'
+    registryCredential = 'dockerhub'
+    dockerImage = ''
   }
 }
