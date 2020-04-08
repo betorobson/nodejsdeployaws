@@ -1,11 +1,32 @@
-node {
-    checkout scm
-
-    docker.withRegistry('https://registry.hub.docker.com', 'docker-credentials') {
-
-        def customImage = docker.build("betorobson/nodejsapp1")
-
-        /* Push the container to the custom Registry */
-        customImage.push("${env.BUILD_ID}")
+pipeline {
+  environment {
+    registry = "betorobson/nodejsapp1"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  tools {nodejs "node" }
+  stages {
+    stage('Cloning Git') {
+      steps {
+        git 'https://bitbucket.org/betorobson/nodejsdeployaws'
+      }
     }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', registryCredential ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
+  }
 }
