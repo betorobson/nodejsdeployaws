@@ -1,24 +1,37 @@
-pipeline {
+environment {
+  registry = "betorobson/nodejsapp1"
+  registryCredential = 'dockerhub'
+}
 
+docker.withRegistry( '', docker-hub-credentials ) {
+
+pipeline {
   environment {
     registry = "betorobson/nodejsapp1"
     registryCredential = 'dockerhub'
+    dockerImage = ''
   }
-
-  agent { dockerfile true }
-  
+  agent any
   tools {nodejs "node" }
-
   stages {
+    stage('Cloning Git') {
+      checkout scm
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
     stage('Deploy Image') {
       steps{
          script {
-            docker.withRegistry( '', docker-hub-credentials ) {
+            docker.withRegistry( '', registryCredential ) {
             dockerImage.push("${env.BUILD_NUMBER}")
           }
         }
       }
     }
   }
-
 }
