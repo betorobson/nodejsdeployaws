@@ -8,12 +8,15 @@ pipeline {
   agent { dockerfile true }
 
   stages {
-    stage('Publish Image') {
-      steps {
-        script {
-          docker.build registry + ":$BUILD_NUMBER"
+    stage('Deploy Image') {
+      steps{
+         script {
+            docker.withRegistry( '', docker-hub-credentials ) {
+            dockerImage.push("${env.BUILD_NUMBER}")
+          }
         }
       }
     }
   }
+
 }
