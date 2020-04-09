@@ -1,13 +1,14 @@
 {
   "name": "@nodejsdeploy/core",
-  "version": "1.0.0",
+  "version": "0.0.5",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
     "start1": "node index.js",
     "start2": "node index2.js",
-    "start3": "node index3.js"
+    "start3": "node index3.js",
+    "test": "node test.js"
   },
   "dependencies": {
     "axios": "^0.19.2",

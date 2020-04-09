@@ -7,5 +7,7 @@ RUN yarn
 
 COPY . .
 
+RUN npm t
+
 EXPOSE 3000
 CMD ["yarn", "run", "start1"]
