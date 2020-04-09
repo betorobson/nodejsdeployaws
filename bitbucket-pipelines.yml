@@ -3,12 +3,8 @@ pipelines:
   default:
     - step:
         script:
-          - docker build -t betorobson/nodejsapp1:bitbucket-pipelines-v1 .
-        services:
-          - docker
-    - step:
-        script:
           - docker login -u betorobson -p live*3344
-          - docker push betorobson/nodejsapp1:bitbucket-pipelines-v1
+          - docker build -t betorobson/nodejsapp1:bitbucket-pipelines-v3 .
+          - docker push betorobson/nodejsapp1:bitbucket-pipelines-v3
         services:
           - docker
