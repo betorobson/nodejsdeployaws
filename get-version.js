@@ -1,1 +1,2 @@
-console.log('v0.0.1');
+const packageJson = require('./package.json');
+console.log('v' + packageJson.version);
