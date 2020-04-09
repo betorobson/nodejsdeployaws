@@ -21,7 +21,7 @@ app.get(
       Object.assign(
         res.resJSONBody || {},
         {
-        message: 'app1:v7'
+        message: 'app1:v0.0.5'
         }
       )
     );
