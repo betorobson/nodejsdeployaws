@@ -5,11 +5,10 @@ pipelines:
         name: Build Docker image and Push to registry
         script:
           - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
-          - VERSION="latest branch-master build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
-          - BUILD_NAME="${IMAGE}:${VERSION}"
+          - BUILD_TAGS="${IMAGE}:bitbucket-pipelines-v7"
           - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
           # - echo $BUILD_NAME
-          - docker build -t ${IMAGE}:bitbucket-pipelines-v6 .
-          - docker push ${IMAGE}:bitbucket-pipelines-v6
+          - docker build -t ${BUILD_TAGS} .
+          - docker push ${BUILD_TAGS}
         services:
           - docker
