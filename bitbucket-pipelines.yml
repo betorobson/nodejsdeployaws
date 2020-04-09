@@ -2,9 +2,13 @@ image: node:10.15.0
 pipelines:
   default:
     - step:
+        name: Build Docker image and Push to registry
         script:
+          - IMAGE="${BITBUCKET_ACCOUNT}/nodejsapp1"
+          - VERSION="latest branch-master build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
+          - BUILD_NAME="${IMAGE}:${VERSION}"
           - echo "${BITBUCKET_PASSWORKD}" | docker login -u ${BITBUCKET_ACCOUNT} --password-stdin
-          - docker build -t betorobson/nodejsapp1:bitbucket-pipelines-v4-$BITBUCKET_COMMIT .
-          - docker push betorobson/nodejsapp1:bitbucket-pipelines-v4-$BITBUCKET_COMMIT
+          - docker build -t ${BUILD_NAME} .
+          - docker push ${BUILD_NAME}
         services:
           - docker
