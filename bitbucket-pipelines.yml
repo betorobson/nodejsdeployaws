@@ -8,7 +8,7 @@ pipelines:
           - docker
     - step:
         script:
-          - docker login -u betorobson -p Live9048
+          - echo "${BITBUCKET_PASSWORKD}" | docker login -u ${BITBUCKET_ACCOUNT} --password-stdin
           - docker push betorobson/nodejsapp1:bitbucket-pipelines-v1-$BITBUCKET_COMMIT
         services:
           - docker
