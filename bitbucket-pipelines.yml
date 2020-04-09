@@ -21,6 +21,8 @@ pipelines:
       - step:
           name: Build Docker image develop and Push to registry
           script:
+            - node get-version.js
+            - echo ${NODE_APP_VERSION}
             - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
             - BUILD_TAGS_1="${IMAGE}:develop"
             - BUILD_TAGS_2="${IMAGE}:branch-${BITBUCKET_BRANCH}"
