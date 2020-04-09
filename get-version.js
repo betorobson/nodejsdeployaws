@@ -1,1 +1,1 @@
-process.env.NODE_APP_VERSION = 'v0.0.1';
+console.log('v0.0.1');

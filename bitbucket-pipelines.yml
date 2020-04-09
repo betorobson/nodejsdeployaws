@@ -21,7 +21,7 @@ pipelines:
       - step:
           name: Build Docker image develop and Push to registry
           script:
-            - node get-version.js
+            - NODE_APP_VERSION=$(node get-version.js)
             - TESTE_VARS=" -- aqui eh o teste --"
             - echo "[ ${TESTE_VARS} | $TESTE_VARS | ${NODE_APP_VERSION} ]"
             - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
