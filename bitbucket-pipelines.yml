@@ -1,18 +1,35 @@
 image: node:10.15.0
 pipelines:
-  default:
-    - step:
-        name: Build Docker image and Push to registry
-        script:
-          - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
-          - BUILD_TAGS_1="${IMAGE}:latest"
-          - BUILD_TAGS_2="${IMAGE}:branch-master"
-          - BUILD_TAGS_3="${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
-          - BUILD_TAGS="-t ${BUILD_TAGS_1} -t ${BUILD_TAGS_2} -t ${BUILD_TAGS_3}"
-          - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
-          - docker build ${BUILD_TAGS} .
-          - docker push ${BUILD_TAGS_1}
-          - docker push ${BUILD_TAGS_2}
-          - docker push ${BUILD_TAGS_3}
-        services:
-          - docker
+  branches:
+    master:
+      - step:
+          name: Build Docker image production and Push to registry
+          script:
+            - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
+            - BUILD_TAGS_1="${IMAGE}:latest"
+            - BUILD_TAGS_2="${IMAGE}:branch-${BITBUCKET_BRANCH}"
+            - BUILD_TAGS_3="${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
+            - BUILD_TAGS="-t ${BUILD_TAGS_1} -t ${BUILD_TAGS_2} -t ${BUILD_TAGS_3}"
+            - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
+            - docker build ${BUILD_TAGS} .
+            - docker push ${BUILD_TAGS_1}
+            - docker push ${BUILD_TAGS_2}
+            - docker push ${BUILD_TAGS_3}
+          services:
+            - docker
+    develop:
+      - step:
+          name: Build Docker image develop and Push to registry
+          script:
+            - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
+            - BUILD_TAGS_1="${IMAGE}:develop"
+            - BUILD_TAGS_2="${IMAGE}:branch-${BITBUCKET_BRANCH}"
+            - BUILD_TAGS_3="${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
+            - BUILD_TAGS="-t ${BUILD_TAGS_1} -t ${BUILD_TAGS_2} -t ${BUILD_TAGS_3}"
+            - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
+            - docker build ${BUILD_TAGS} .
+            - docker push ${BUILD_TAGS_1}
+            - docker push ${BUILD_TAGS_2}
+            - docker push ${BUILD_TAGS_3}
+          services:
+            - docker
