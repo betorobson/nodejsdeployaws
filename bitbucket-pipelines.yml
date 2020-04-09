@@ -9,9 +9,10 @@ pipelines:
           - BUILD_TAGS_2="${IMAGE}:branch-master"
           - BUILD_TAGS_3="${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
           - BUILD_TAGS="-t ${BUILD_TAGS_1} -t ${BUILD_TAGS_2} -t ${BUILD_TAGS_3}"
+          - PUSH_TAGS="${BUILD_TAGS_1} ${BUILD_TAGS_2} ${BUILD_TAGS_3}"
           - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
           # - echo $BUILD_NAME
           - docker build ${BUILD_TAGS} .
-          - docker push ${BUILD_TAGS}
+          - docker push ${PUSH_TAGS}
         services:
           - docker
