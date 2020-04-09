@@ -8,7 +8,7 @@ pipelines:
           - VERSION="latest branch-master build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
           - BUILD_NAME="${IMAGE}:${VERSION}"
           - echo "${BITBUCKET_PASSWORKD}" | docker login -u ${BITBUCKET_ACCOUNT} --password-stdin
-          - echo "${BUILD_NAME}"
+          - echo ${BUILD_NAME}
           - docker build -t ${BUILD_NAME} .
           - docker push ${BUILD_NAME}
         services:
