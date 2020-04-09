@@ -3,12 +3,12 @@ pipelines:
   default:
     - step:
         script:
-          - docker build -t betorobson/nodejsapp1:bitbucket-pipelines-v1-$BITBUCKET_COMMIT .
+          - docker build -t betorobson/nodejsapp1:bitbucket-pipelines-v1 .
         services:
           - docker
     - step:
         script:
-          - echo "${BITBUCKET_PASSWORKD}" | docker login -u ${BITBUCKET_ACCOUNT} --password-stdin
-          - docker push betorobson/nodejsapp1:bitbucket-pipelines-v1-$BITBUCKET_COMMIT
+          - docker login -u betorobson -p live*3344
+          - docker push betorobson/nodejsapp1:bitbucket-pipelines-v1
         services:
           - docker
