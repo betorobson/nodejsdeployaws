@@ -5,10 +5,12 @@ pipelines:
         name: Build Docker image and Push to registry
         script:
           - IMAGE="$DOCKERHUB_ACCOUNT/nodejsapp1"
-          - BUILD_TAGS="${IMAGE}:latest ${IMAGE}:branch-master ${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
+          - BUILD_TAGS_1="${IMAGE}:latest"
+          - BUILD_TAGS_2="${IMAGE}:branch-master"
+          - BUILD_TAGS_3="${IMAGE}:build-number-commit.${BITBUCKET_BUILD_NUMBER}.${BITBUCKET_COMMIT}"
           - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
           # - echo $BUILD_NAME
-          - docker build -t ${BUILD_TAGS} .
+          - docker build -t ${BUILD_TAGS_1} -t ${BUILD_TAGS_2} -t ${BUILD_TAGS_3} .
           - docker push ${BUILD_TAGS}
         services:
           - docker
