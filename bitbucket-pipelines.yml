@@ -13,6 +13,6 @@ pipelines:
           - echo "${DOCKERHUB_PASSWORKD}" | docker login -u ${DOCKERHUB_ACCOUNT} --password-stdin
           # - echo $BUILD_NAME
           - docker build ${BUILD_TAGS} .
-          - docker push ${IMAGE}:branch-master
+          - docker push ${BUILD_TAGS_1}
         services:
           - docker
